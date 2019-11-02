@@ -14,7 +14,7 @@ class Calculator extends Component {
                     ...this.state,
                     secondNumber: this.state.secondNumber + event.target.value
                 }) 
-            } else if (Number(event.target.value)) {
+            } else if (Number(event.target.value) >= 0) {
                 this.setState({
                     ...this.state,
                     firstNumber: this.state.firstNumber + event.target.value
