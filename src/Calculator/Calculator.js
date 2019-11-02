@@ -9,12 +9,12 @@ class Calculator extends Component {
     }
 
     capture = (event) => {
-            if (this.state.operator){
+            if (this.state.operator && (Number(event.target.value) >= 0 || event.target.value === ".")){
                 this.setState({
                     ...this.state,
                     secondNumber: this.state.secondNumber + event.target.value
                 }) 
-            } else if (Number(event.target.value) >= 0) {
+            } else if (Number(event.target.value) >= 0 || event.target.value === ".") {
                 this.setState({
                     ...this.state,
                     firstNumber: this.state.firstNumber + event.target.value
@@ -28,12 +28,12 @@ class Calculator extends Component {
     }
 
     submit = ()=>{
-        let equation = this.state.firstNumber + this.state.operator + this.state.secondNumber;
+        let equation = this.state.firstNumber + " " + this.state.operator + " " + this.state.secondNumber;
         let solution = eval(Number(this.state.firstNumber)+(this.state.operator)+Number(this.state.secondNumber));
         console.log(solution)
         this.setState({
             ...this.state,
-            history: [...this.state.history, equation+"="+solution],
+            history: [...this.state.history, equation+" = "+solution],
             firstNumber: '',
             operator: '',
             secondNumber: ''
@@ -55,7 +55,7 @@ class Calculator extends Component {
         return (
             <>
                 <h2>Calculator</h2>
-                <p>Current Equation: <span>{this.state.firstNumber+this.state.operator+this.state.secondNumber}</span></p>
+                <h6>Note: This is a simple calculator and can only handle one operation on two numbers per submission.</h6>
                 <br />
                 {/* numbers (tried to use a loop to create this, no luck) */}
                 <button value={1} onClick={this.capture}>1</button>
@@ -84,8 +84,9 @@ class Calculator extends Component {
                 <button onClick={this.submit}>=</button>
                 <button onClick={this.clear}>C</button>
                 <br />
-                <h4>History</h4>
-                <ul>
+                <h4>Current Equation: <span>{this.state.firstNumber + " " + this.state.operator + " " + this.state.secondNumber}</span></h4>
+                <h4>Recent Equations</h4>
+                <ul className="historyList">
                     {
                         this.state.history.length > 10 ?
                         this.state.history.slice(this.state.history.length - 10, this.state.history.length).reverse().map((equation, i) => {
