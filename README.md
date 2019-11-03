@@ -1,5 +1,9 @@
 Created with npx create-react-app react-calculator --scripts-version 2.1.8
-To run, type npm start in the Terminal
+
+To run:
+    Download and upzip
+    Type npm install in the Terminal
+    Type npm start in the Terminal
 
 # Objective
 
