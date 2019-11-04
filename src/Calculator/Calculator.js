@@ -38,37 +38,31 @@ class Calculator extends Component {
                 ...this.state,
                 secondNumber: this.state.secondNumber + event.target.value
             })
-            //if operator is not assigned and button clicked can be converted to number or decimal, assign to firstNumber
+        //if operator is not assigned and button clicked can be converted to number or decimal, assign to firstNumber
         } else if (Number(event.target.value) >= 0 || event.target.value === ".") {
             this.setState({
                 ...this.state,
                 firstNumber: this.state.firstNumber + event.target.value
             })
-            //if operator is -, determine if it is intended for "negative" or "minus", and assign accordingly
-        } else if (event.target.value === "-") {
-            if (!this.state.firstNumber) {
+        //if operator is - and firstNumber is not assigned, assign to firstNumber as negative
+        } else if (event.target.value === "-" && this.state.firstNumber == false) {
                 this.setState({
                     ...this.state,
                     firstNumber: this.state.firstNumber + event.target.value
                 })
-            } else if (!this.state.operator) {
-                this.setState({
-                    ...this.state,
-                    operator: event.target.value
-                })
-            } else if (!this.state.secondNumber) {
-                this.setState({
-                    ...this.state,
-                    secondNumber: this.state.secondNumber + event.target.value
-                })
-            }
-            //if operator is not assigned and button clicked cannot be converted to number or decimal, assign the operator
+        //if operator is not assigned and button clicked cannot be converted to number or decimal, assign the operator
         } else if (!this.state.operator) {
             this.setState({
                 ...this.state,
                 operator: event.target.value
             })
-            //if operator is already assigned and another operator is clicked, update the firstNumber to the value of the previous equation and assign the operator
+        //if operator is - and secondNumber is not assigned, assign to secondNumber as negative
+        } else if (event.target.value === "-" && !this.state.secondNumber) {
+            this.setState({
+                ...this.state,
+                secondNumber: this.state.secondNumber + event.target.value
+            })
+        //if operator is already assigned and another operator is clicked, update the firstNumber to the value of the previous equation and assign the operator
         } else {
             this.setState({
                 ...this.state,
