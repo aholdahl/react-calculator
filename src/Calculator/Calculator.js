@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class Calculator extends Component {
+    state = {
+        firstNumber: '',
+        operator: '',
+        secondNumber: '',
+        history: []
+    }
+
     componentDidMount() {
         //shows the history on load, updates at close intervals
         this.fetchHistory();
         this.interval = setInterval(()=>{
             this.fetchHistory()
         }, 1000);
-    }
-
-    state = {
-        firstNumber: '',
-        operator: '',
-        secondNumber: '',
-        history: []
     }
 
     //gets the history array from calculator.router.js
@@ -54,7 +54,6 @@ class Calculator extends Component {
     submit = () => {
         axios.post('/calculator', { ...this.state })
             .then((response) => {
-                console.log(response.statusText)
                 this.fetchHistory();
                 this.clear();
             }).catch((error) => {
@@ -107,17 +106,9 @@ class Calculator extends Component {
                 <section aria-label="history">
                     <h3>Recent Equations</h3>
                     <ul className="historyList">
-                        {/* Truncates the history array to the last 10, reverses the order, and renders as list items */}
-                        {
-                            this.state.history.length > 10 ?
-                                this.state.history.slice(this.state.history.length - 10, this.state.history.length).reverse().map((equation, i) => {
-                                    return <li key={i}>{equation}</li>
-                                })
-                                :
-                                this.state.history.slice(0, this.state.history.length).reverse().map((equation, i) => {
-                                    return <li key={i}>{equation}</li>
-                                })
-                        }
+                        {this.state.history && this.state.history.map((equation)=>{
+                            return <li key={equation.id}>{equation.equation}</li>
+                        })}
                     </ul>
                 </section>
             </main>
