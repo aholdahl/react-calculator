@@ -6,13 +6,13 @@ class Calculator extends Component {
         firstNumber: '',
         operator: '',
         secondNumber: '',
-        history: []
+        history: [],
     }
 
     componentDidMount() {
         //shows the history on load, updates at close intervals
         this.fetchHistory();
-        this.interval = setInterval(()=>{
+        this.interval = setInterval(() => {
             this.fetchHistory()
         }, 1000);
     }
@@ -32,20 +32,50 @@ class Calculator extends Component {
 
     //determines if the last button clicked should be stored within firstNumber, secondNumber, or the operator
     capture = (event) => {
+        //if operator is already assigned and button clicked can be converted to number or decimal, assign to secondNumber
         if (this.state.operator && (Number(event.target.value) >= 0 || event.target.value === ".")) {
             this.setState({
                 ...this.state,
                 secondNumber: this.state.secondNumber + event.target.value
             })
+            //if operator is not assigned and button clicked can be converted to number or decimal, assign to firstNumber
         } else if (Number(event.target.value) >= 0 || event.target.value === ".") {
             this.setState({
                 ...this.state,
                 firstNumber: this.state.firstNumber + event.target.value
             })
-        } else {
+            //if operator is -, determine if it is intended for "negative" or "minus", and assign accordingly
+        } else if (event.target.value === "-") {
+            if (!this.state.firstNumber) {
+                this.setState({
+                    ...this.state,
+                    firstNumber: this.state.firstNumber + event.target.value
+                })
+            } else if (!this.state.operator) {
+                this.setState({
+                    ...this.state,
+                    operator: event.target.value
+                })
+            } else if (!this.state.secondNumber) {
+                this.setState({
+                    ...this.state,
+                    secondNumber: this.state.secondNumber + event.target.value
+                })
+            }
+            //if operator is not assigned and button clicked cannot be converted to number or decimal, assign the operator
+        } else if (!this.state.operator) {
             this.setState({
                 ...this.state,
                 operator: event.target.value
+            })
+            //if operator is already assigned and another operator is clicked, update the firstNumber to the value of the previous equation and assign the operator
+        } else {
+            this.setState({
+                ...this.state,
+                firstNumber: eval(this.state.firstNumber + this.state.operator + this.state.secondNumber),
+                //it is my understanding that eval() is not ideal, but I am using it here for the sake of time. See calculator.server.js for safer (albeit tedious) alternative
+                operator: event.target.value,
+                secondNumber: ''
             })
         }
     }
@@ -72,7 +102,6 @@ class Calculator extends Component {
     }
 
     render() {
-
         return (
             <main>
                 <h3>Current Equation: <span>{this.state.firstNumber + " " + this.state.operator + " " + this.state.secondNumber}</span></h3>
@@ -106,7 +135,7 @@ class Calculator extends Component {
                 <section aria-label="history">
                     <h3>Recent Equations</h3>
                     <ul className="historyList">
-                        {this.state.history && this.state.history.map((equation)=>{
+                        {this.state.history && this.state.history.map((equation) => {
                             return <li key={equation.id}>{equation.equation}</li>
                         })}
                     </ul>

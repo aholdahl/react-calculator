@@ -5,6 +5,7 @@ const pool = require('../modules/pool.js');
 //receives the equation from Calculator.js and calculates the result, storing it in the database
 router.post('/', (req, res) => {
     let equation = req.body.firstNumber + " " + req.body.operator + " " + req.body.secondNumber;
+    //let solution = eval(equation) would have been the dryest option, but use of eval() is discouraged
     let solution = () => {
         if (req.body.operator === '+') {
             return Number(req.body.firstNumber) + Number(req.body.secondNumber)
@@ -15,7 +16,6 @@ router.post('/', (req, res) => {
         } else if (req.body.firstNumber === '/') {
             return Number(req.body.firstNumber) / Number(req.body.secondNumber)
         } else {
-            //let solution = eval(equation) would have been the dryest option, but use of eval() is discouraged
             return eval(equation)
         }
     }
