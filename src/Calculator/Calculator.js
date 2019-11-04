@@ -3,6 +3,7 @@ import axios from 'axios';
 
 class Calculator extends Component {
     componentDidMount() {
+        //shows the history on load, updates at close intervals
         this.fetchHistory();
         this.interval = setInterval(()=>{
             this.fetchHistory()
@@ -16,6 +17,7 @@ class Calculator extends Component {
         history: []
     }
 
+    //gets the history array from calculator.router.js
     fetchHistory = () => {
         axios.get('/calculator')
             .then((response) => {
@@ -28,6 +30,7 @@ class Calculator extends Component {
             })
     }
 
+    //determines if the last button clicked should be stored within firstNumber, secondNumber, or the operator
     capture = (event) => {
         if (this.state.operator && (Number(event.target.value) >= 0 || event.target.value === ".")) {
             this.setState({
@@ -47,6 +50,7 @@ class Calculator extends Component {
         }
     }
 
+    //sends the current equation to calculator.router.js to calculate the solution and store in the history
     submit = () => {
         axios.post('/calculator', { ...this.state })
             .then((response) => {
@@ -58,6 +62,7 @@ class Calculator extends Component {
             })
     }
 
+    //resets the local state to clear the current equation
     clear = () => {
         this.setState({
             ...this.state,
@@ -102,6 +107,7 @@ class Calculator extends Component {
                 <section aria-label="history">
                     <h3>Recent Equations</h3>
                     <ul className="historyList">
+                        {/* Truncates the history array to the last 10, reverses the order, and renders as list items */}
                         {
                             this.state.history.length > 10 ?
                                 this.state.history.slice(this.state.history.length - 10, this.state.history.length).reverse().map((equation, i) => {
