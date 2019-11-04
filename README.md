@@ -13,4 +13,3 @@ Results should remain between sessions.
 
 Does the calculator need to be able to handle more complex equations? (ex: 5 + 4 * 9)
 Does the calculator need to be able to handle the input of negative numbers into the equation? (-7 + 3)
-Used eval() for dryness - do we need to rewrite it for security purposes?
