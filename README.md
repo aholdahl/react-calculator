@@ -1,14 +1,5 @@
 Live build can be found at https://holdahl-react-calculator.herokuapp.com/
 
-To run:
-    Download from https://github.com/aholdahl/react-calculator and upzip
-    Type the following commands into Terminal:
-        npm install
-        npm run server
-        cmd+t
-        npm run client
-
-
 # Objective
 
 Build a calculator that captures an equation provided by the user. (Ex: 5+5)
