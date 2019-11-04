@@ -45,7 +45,7 @@ class Calculator extends Component {
                 firstNumber: this.state.firstNumber + event.target.value
             })
         //if operator is - and firstNumber is not assigned, assign to firstNumber as negative
-        } else if (event.target.value === "-" && this.state.firstNumber == false) {
+        } else if (event.target.value === "-" && !this.state.firstNumber) {
                 this.setState({
                     ...this.state,
                     firstNumber: this.state.firstNumber + event.target.value
