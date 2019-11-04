@@ -4,6 +4,9 @@ import axios from 'axios';
 class Calculator extends Component {
     componentDidMount() {
         this.fetchHistory();
+        this.interval = setInterval(()=>{
+            this.fetchHistory()
+        }, 1000);
     }
 
     state = {
